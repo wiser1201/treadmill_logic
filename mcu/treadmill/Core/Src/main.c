@@ -1,4 +1,5 @@
 #include "main.h"
+#include "tim1.h"
 
 void SystemClock_Config(void);
 static void GPIO_Init(void);
@@ -8,6 +9,9 @@ int main(void)
 	HAL_Init();
 	SystemClock_Config();
 	GPIO_Init();
+
+	tim1_init();
+	tim1_start();
 
 	while (1)
 	{
