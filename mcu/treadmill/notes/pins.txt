@@ -1,0 +1,10 @@
+PA8 - ZERO_CROSS;
+PA9 - Trigger;
+PB6-8 - Buttons;
+PB5 - Buzzer;
+PA7-1 - LCD;
+PB4 - Hall;
+
+pcb:
+4 gnd, 4 +5V: (lcd, mcu, hall, +1 extra);
+2 signals: buzzer, ZERO_CROSS

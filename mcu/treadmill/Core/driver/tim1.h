@@ -1,6 +1,8 @@
 #ifndef TIM1_H
 #define TIM1_H
 
+#include <stdint.h>
+
 #define TIMER1_FREQ 64000000UL
 #define TIMER1_PRESC (64 - 1)
 #define TIMER1_PERIOD (9100 - 300)
