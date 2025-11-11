@@ -68,6 +68,17 @@ void tim1_reset(void)
     tim1_init();
 }
 
+void tim1_setPeriod(const uint32_t period)
+{
+    htim1.Instance->ARR = period;
+    htim1.Instance->CCR2 = period - TIMER1_PULSE_US;
+}
+
+uint32_t tim1_getPeriod(void)
+{
+    return htim1.Instance->ARR;
+}
+
 void tim1_mspInit(void)
 {
     __HAL_RCC_TIM1_CLK_ENABLE();
