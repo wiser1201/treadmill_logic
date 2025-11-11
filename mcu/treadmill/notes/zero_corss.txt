@@ -1,0 +1,21 @@
+Initialization:
+1. sine wave goes to high;
+2. MCU captures high input and latches the time;
+3. Wait until capture 0 level;
+4. Record both captured values;
+5. Repeat a certain amount of time;
+6. Check if frequency between samples were approximately the same;
+7. Calculate the latency between rising/falling edges.
+It should be about 10%, which is a lot. So I need to be precise and
+fire pulses to open SCRs taking into account this latency.
+
+Normal op:
+1. Sine wave goes to high;
+2. MCU captures high input, timer starts with predefined period,
+one pulse mode;
+3. When the timer overflows, MCU gives a sort pulse, duration ~10 us;
+4. It's enough to open a SCR. Wait/check RPM, correct period of the
+waiting timer.
+5. Repeat.
+ 
+
