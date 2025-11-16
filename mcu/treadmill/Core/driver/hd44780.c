@@ -41,7 +41,7 @@ extern bool ex_gpio_read(const HD44780_Pin_e pin);
 /* Communication protocol driver section */
 #define NUM_OF_DL 8 
 #define NUM_OF_USED_DL 4 // num of used data lines
-#define PULSE_US 50
+#define PULSE_US 100
 #define GAP_US (PULSE_US / 2)
 #define PERIOD_US ((PULSE_US * 2 + GAP_US) * 2) // two pulses (4 + 4 bits data) + gap in-between
 

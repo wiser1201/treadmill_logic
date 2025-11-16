@@ -10,6 +10,7 @@
 #include "buzzer.h"
 #include "main.h"
 #include "motion.h"
+// #include <stdio.h>
 
 typedef enum
 {
@@ -48,9 +49,9 @@ void system_tick(void)
     {
         motion_tick();
         fault_check();
-        // buttons_handler();
-        // buzzer_tick();
-        // lcd_update();
+        buttons_handler();
+        buzzer_tick();
+        lcd_update();
     }
 }
 
@@ -73,6 +74,7 @@ void apps_init(void)
 static void drivers_start(void)
 {
     tim1_start();
+    HAL_Delay(10); // must wait for timer-wave sync
 }
 
 static void drivers_stop(void)
@@ -82,7 +84,7 @@ static void drivers_stop(void)
 
 void drivers_reset(void)
 {
-    tim1_reset();
+    // tim1_reset();
     hall_reset();
     fault_reset();
     motion_reset();

@@ -1,15 +1,20 @@
 #include "motion.h"
 #include "tim1.h"
-#include "main.h"
 #include "hall.h"
 #include "time.h"
 #include <math.h>
 #include <stdint.h>
 #include <stdlib.h>
 
-#define MAX_SPEED 12
-#define MIN_SPEED 4
-#define SOFT_START_DELAY 1000
+#define SPEED_MAX 12
+#define SPEED_MIN 4
+#define SOFT_START_DELAY 700
+#define SINE_PERIOD 20000
+#define TRIG_LATENCY 300
+#define DEAD_TIME 500
+#define MIN_SPEED_SHIFT 1500
+#define PERIOD_MAX ((SINE_PERIOD / 2) - TRIG_LATENCY - DEAD_TIME - MIN_SPEED_SHIFT)
+#define PERIOD_MIN ((SINE_PERIOD / 2) * 0.4)
 
 typedef struct
 {
@@ -24,15 +29,15 @@ typedef struct
     const float hyst;
 } PID_Data;
 
-static int targ_speed = MIN_SPEED;
+static int targ_speed = SPEED_MIN;
 static float curr_speed = 0;
 static PID_Data pid_data = 
 {
-    .Kp = 2.2f,
-    .Ki = 25.f,
+    .Kp = 200.f,
+    .Ki = 2000.f,
     .min = 0,
-    .max = 550,
-    .hyst = 0.3f
+    .max = PERIOD_MAX - PERIOD_MIN,
+    .hyst = 0.1f
 };
 
 static int clamp(int val, int min, int max);
@@ -47,8 +52,11 @@ void motion_tick(void)
     pid_data.error = targ_speed - curr_speed;
     if (abs(pid_data.error) > pid_data.hyst)
     {
-        int cc = pid_calc(&pid_data);
-        TIM1->CCR1 = cc;
+        int period = PERIOD_MAX + (-pid_calc(&pid_data));
+        if (tim1_getPeriod() != period)
+        {
+            tim1_setPeriod(period);
+        }
     }
 }
 
@@ -62,9 +70,8 @@ void motion_reset(void)
 
 void motion_softStart(void)
 {
-    pid_data.i_pr = (TIM1->ARR + 1) * 0.1f;
-    TIM1->CCR1 = pid_data.i_pr;
-    const uint32_t timeout = time_ms() + SOFT_START_DELAY;
+    tim1_setPeriod(PERIOD_MAX);
+    uint32_t timeout = time_ms() + SOFT_START_DELAY;
     while (time_ms() < timeout) {}
 }
 
@@ -116,7 +123,7 @@ int motion_getCurrSpeed(void)
 
 void motion_incrSpeed(void)
 {
-    if ((targ_speed + 1) <= MAX_SPEED)
+    if ((targ_speed + 1) <= SPEED_MAX)
     {
         ++targ_speed;
     }
@@ -124,7 +131,7 @@ void motion_incrSpeed(void)
 
 void motion_decrSpeed(void)
 {
-    if ((targ_speed - 1) >= MIN_SPEED)
+    if ((targ_speed - 1) >= SPEED_MIN)
     {
         --targ_speed;
     }

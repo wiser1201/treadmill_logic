@@ -9,6 +9,7 @@
 
 
 #define HALL_MAX_SAMPLE_TIME_MS 500
+#define SPEED_ERROR_MAX 2
 
 static uint32_t hall_timeout = 0;
 
@@ -63,7 +64,7 @@ void hall_check(void)
 
 void motion_check(void)
 {
-    if (motion_getCurrSpeed() > (motion_getSpeed() + 1))
+    if (motion_getCurrSpeed() > (motion_getSpeed() + SPEED_ERROR_MAX))
     {
         fault(DR_MOTION, FAULT_OVERLOAD);
     }

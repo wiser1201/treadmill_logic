@@ -25,7 +25,7 @@ void hall_init(void)
     GPIO_InitTypeDef gpio_hall;
     gpio_hall.Mode = GPIO_MODE_IT_FALLING;
     gpio_hall.Pin = GPIO_PIN_4;
-    gpio_hall.Pull = GPIO_PULLUP;
+    gpio_hall.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOB, &gpio_hall);
 
     HAL_NVIC_SetPriority(EXTI4_IRQn, 10, 0);

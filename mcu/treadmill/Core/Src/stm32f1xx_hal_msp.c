@@ -3,6 +3,8 @@
 
 extern void tim1_mspInit(void);
 extern void tim1_mspDeInit(void);
+extern void tim3_mspInit(void);
+extern void tim3_mspDeInit(void);
 
 void HAL_MspInit(void)
 {
@@ -24,5 +26,21 @@ void HAL_TIM_OnePulse_MspDeInit(TIM_HandleTypeDef *htim)
 	if (htim->Instance == TIM1)
 	{
 		tim1_mspDeInit();
+	}
+}
+
+void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim)
+{
+	if (htim->Instance == TIM3)
+	{
+		tim3_mspInit();
+	}
+}
+
+void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef *htim)
+{
+	if (htim->Instance == TIM3)
+	{
+		tim3_mspDeInit();
 	}
 }

@@ -13,7 +13,7 @@ void tim1_init(void)
     htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
     htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
     htim1.Init.Prescaler = TIMER1_PRESC;
-    htim1.Init.Period = TIMER1_PERIOD;    
+    htim1.Init.Period = TIMER1_PERIOD;
     htim1.Init.RepetitionCounter = 0;
     if (HAL_TIM_OnePulse_Init(&htim1, TIM_OPMODE_SINGLE) != HAL_OK)
     {
@@ -87,7 +87,7 @@ void tim1_mspInit(void)
     GPIO_InitTypeDef tim1_gpio = {0};
     tim1_gpio.Mode = GPIO_MODE_AF_INPUT;
     tim1_gpio.Pin = GPIO_PIN_8;
-    tim1_gpio.Pull = GPIO_PULLUP;
+    tim1_gpio.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOA, &tim1_gpio);
 
     tim1_gpio.Mode = GPIO_MODE_AF_PP;

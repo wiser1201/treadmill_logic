@@ -127,6 +127,8 @@ void SysTick_Handler(void)
 	/* USER CODE END SysTick_IRQn 1 */
 }
 
+extern void hall_irq(void);
+
 void EXTI4_IRQHandler(void)
 {
 	if (EXTI->PR & EXTI_PR_PR4)  // Check pending flag

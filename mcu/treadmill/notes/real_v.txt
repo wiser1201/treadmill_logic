@@ -1,0 +1,11 @@
+wait_for_unbusy_flag();
+ ex_delay_us(2000);
+ return true;
+
+hall_getRPM();
+if (ret > HALL_RPM_MAX)
+        {
+            ret = rpm_prev;
+        }
+
+motion_check(); -

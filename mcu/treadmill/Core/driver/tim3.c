@@ -6,8 +6,8 @@ TIM_HandleTypeDef htim3;
 volatile static uint32_t overf_cntr = 0;
 static uint32_t overf_cntr_saved = 0;
 
-void tim3_msp_init(void);
-void tim3_msp_deinit(void);
+void tim3_mspInit(void);
+void tim3_mspDeInit(void);
 
 void tim3_init(void)
 {
@@ -60,7 +60,7 @@ bool tim3_isActive(void)
     return htim3.Instance->CR1 & TIM_CR1_CEN_Msk;
 }
 
-void tim3_msp_init(void)
+void tim3_mspInit(void)
 {
     __HAL_RCC_TIM3_CLK_ENABLE();
 
@@ -69,7 +69,7 @@ void tim3_msp_init(void)
     TIM3->CR1 |= (1 << 2); // update only on overflow
 }
 
-void tim3_msp_deinit(void)
+void tim3_mspDeInit(void)
 {
     __HAL_RCC_TIM3_CLK_DISABLE();
     HAL_NVIC_DisableIRQ(TIM3_IRQn);

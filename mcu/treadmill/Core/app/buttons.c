@@ -2,7 +2,7 @@
 #include "main.h"
 #include "time.h"
 
-#define VALID_STATE_DELAY 50
+#define VALID_STATE_DELAY 10
 
 #define BTNS_MSK ((1 << BTN_SS) | (1 << BTN_INCR) | (1 << BTN_DECR))
 
@@ -14,7 +14,7 @@ void buttons_init(void)
     GPIO_InitTypeDef btns;
     btns.Mode = GPIO_MODE_INPUT;
     btns.Pin = BTNS_MSK;
-    btns.Pull = GPIO_PULLUP;
+    btns.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOB, &btns);
 }
 
@@ -32,7 +32,6 @@ void buttons_update(void)
             {
                 btns_state_msk = btns_curr_state;
                 btns_out = btns_state_msk;
-                changed_time = 0;
             }
         }
         else
@@ -55,5 +54,5 @@ bool buttons_anyIsPressed(void)
 
 void buttons_clear(void)
 {
-    btns_out = UINT32_MAX;
+    btns_out = BTNS_MSK;
 }

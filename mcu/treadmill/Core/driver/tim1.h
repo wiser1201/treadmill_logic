@@ -5,7 +5,7 @@
 
 #define TIMER1_FREQ 64000000UL
 #define TIMER1_PRESC (64 - 1)
-#define TIMER1_PERIOD (9100 - 300)
+#define TIMER1_PERIOD 100
 #define TIMER1_PULSE_US 100
 
 void tim1_init(void);
