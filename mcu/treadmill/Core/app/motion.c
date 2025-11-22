@@ -8,11 +8,11 @@
 
 #define SPEED_MAX 12
 #define SPEED_MIN 4
-#define SOFT_START_DELAY 700
+#define SOFT_START_DELAY 1500
 #define SINE_PERIOD 20000
 #define TRIG_LATENCY 300
 #define DEAD_TIME 500
-#define MIN_SPEED_SHIFT 1500
+#define MIN_SPEED_SHIFT 1900
 #define PERIOD_MAX ((SINE_PERIOD / 2) - TRIG_LATENCY - DEAD_TIME - MIN_SPEED_SHIFT)
 #define PERIOD_MIN ((SINE_PERIOD / 2) * 0.4)
 
@@ -33,8 +33,9 @@ static int targ_speed = SPEED_MIN;
 static float curr_speed = 0;
 static PID_Data pid_data = 
 {
-    .Kp = 200.f,
-    .Ki = 2000.f,
+    .Kp = 100.f,
+    .Ki = 4000.f,
+    .Kd = 70.f,
     .min = 0,
     .max = PERIOD_MAX - PERIOD_MIN,
     .hyst = 0.1f
@@ -71,7 +72,7 @@ void motion_reset(void)
 void motion_softStart(void)
 {
     tim1_setPeriod(PERIOD_MAX);
-    uint32_t timeout = time_ms() + SOFT_START_DELAY;
+    const uint32_t timeout = time_ms() + SOFT_START_DELAY;
     while (time_ms() < timeout) {}
 }
 
@@ -81,7 +82,8 @@ int pid_calc(PID_Data* data)
     const float sample_period_sec = tick_us / 1000000.f;
     float p_part = data->Kp * data->error;
     float i_part = data->i_pr + data->Ki * sample_period_sec * data->error;
-    int actuating_signal = p_part + i_part;
+    float d_part = data->Kd * ((data->error - data->error_pr));
+    int actuating_signal = p_part + i_part + d_part;
     int clamped = clamp(actuating_signal, data->min, data->max);
 
     if (actuating_signal < data->min)
@@ -102,7 +104,8 @@ int pid_calc(PID_Data* data)
     {
         data->i_pr = i_part;
     }
-    
+    data->error_pr = data->error;
+
     return clamped;
 }
 

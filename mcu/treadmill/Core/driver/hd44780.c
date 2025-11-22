@@ -135,15 +135,8 @@ void parallel_cdd(void)
 
 bool wait_for_unbusy_flag(void)
 {
-    for (int i = 0; i < 10; ++i)
-    {
-        const uint8_t status = parallel_rx(LOW);
-        if (FLAG_IS_SET(status, F_BF) == false)
-        {
-            return true;
-        }
-    }
-    return false;
+    ex_delay_us(2000);
+    return true;
 }
 /* ~Communication protocol driver section end */
 

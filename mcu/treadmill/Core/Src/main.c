@@ -55,7 +55,7 @@ void GPIO_Init(void)
 	GPIO_InitTypeDef gpio_led = {0};
 	gpio_led.Mode = GPIO_MODE_OUTPUT_PP;
 	gpio_led.Pin = GPIO_PIN_13;
-	gpio_led.Pull = GPIO_PULLUP;
+	gpio_led.Pull = GPIO_NOPULL;
 	gpio_led.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init(GPIOC, &gpio_led);
 }

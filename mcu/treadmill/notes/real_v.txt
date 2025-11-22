@@ -8,4 +8,4 @@ if (ret > HALL_RPM_MAX)
             ret = rpm_prev;
         }
 
-motion_check(); -
+motion_check();
