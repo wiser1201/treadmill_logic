@@ -10,7 +10,8 @@ uint32_t time_us(void)
         cnt  = tim3_cntr();
         ovf2 = tim3_overf_cntr();
     } while (ovf1 != ovf2);
-    return ((TIMER3_PERIOD + 1) * ovf2 + cnt) * TIMER3_TICK_US;
+
+    return TIMER3_OVERF_US * ovf2 + (TIMER3_TICK_US * cnt);
 }
 
 uint32_t time_ms(void)
