@@ -17,3 +17,7 @@ mcu/treadmill/STM32F103XX_FLASH.ld
 mcu/treadmill/treadmill.ioc
 KiCad/treadmill_v2/treadmill_v2-backups/
 KiCad/treadmill_v2/fp-info-cache
+KiCad/logic/fab/
+KiCad/control/fab
+KiCad/control/control-backups/
+KiCad/logic/treadmill-backups/
